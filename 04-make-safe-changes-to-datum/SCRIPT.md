@@ -158,8 +158,10 @@ datumctl diff -f manifests/
 
 **VO:**
 > Now the everyday case. Someone changes an IP in a pull request. Run the
-> diff and you see exactly one line change, in exactly one resource. That's
-> the review comment writing itself.
+> diff and one resource changes: the IP, plus the bookkeeping the server
+> updates alongside it, like the generation and the display annotations.
+> The other two resources don't appear at all. That's the review comment
+> writing itself.
 
 ```
 datumctl apply -f manifests/ --dry-run=server && datumctl apply -f manifests/
@@ -208,14 +210,15 @@ datumctl diff -f manifests/
 
 ```
 datumctl delete -f manifests/ --dry-run=client
-datumctl delete -f manifests/
+datumctl delete -f manifests/ --ignore-not-found
 datumctl get dnszones -l demo=safe-changes
 ```
 
 **VO:**
 > Even teardown gets a preview. `delete --dry-run=client` lists what would go
 > without touching the server. Then delete from the same files you applied, so
-> you remove exactly what you created and nothing else.
+> you remove exactly what you created and nothing else. Deleting the zone
+> takes its record sets with it, which is why `--ignore-not-found` is there.
 >
 > Inspect, preview, apply, verify. Nothing on Datum should surprise you.
 
@@ -253,6 +256,11 @@ datumctl describe <type> <name>
 - The zone class `datum-external-global-dns` comes from the DNS skill docs.
   Run `datumctl get dnszoneclasses` in your project first and change the
   manifest if the name differs.
+- `DEMO_DOMAIN` must be a domain no other Datum zone has claimed.
+  `example.com` is already claimed, so its zone sits at
+  `Accepted=False (DNSZoneInUse)` and the verify beat never goes green. The
+  repo's `.envrc` sets `safe-changes.rawkode.xyz`, which is tested and reaches
+  `Programmed=True` in seconds.
 - Pick a `DEMO_DOMAIN` you control or that is clearly reserved. The driver
   substitutes it into the manifests. Don't record with a domain someone else
   owns on screen.

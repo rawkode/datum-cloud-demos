@@ -35,7 +35,7 @@
 
 ```sh
 export DEMO_PROJECT=my-project
-export DEMO_DOMAIN=safe-changes.example.net   # optional, default example.com
+export DEMO_DOMAIN=safe-changes.rawkode.xyz   # set by ../.envrc; must be unclaimed
 export DEMO_DRIFT=1                            # optional, run the edit + drift beat
 export DATUMCTL_EXTERNAL_DIFF="colordiff -N -u" # optional, colour diffs
 ./demo.sh
@@ -68,11 +68,20 @@ It needs, in the repo settings:
   service accounts → Datum-managed key), with read access and dry-run
   permission on DNS in the project
 - variable `DATUM_PROJECT`: the project to diff against
-- variable `DEMO_DOMAIN` (optional): substituted for `example.com`, same as
-  `demo.sh`. Set it to the domain you record with so CI and the demo agree.
+- variable `DEMO_DOMAIN`: substituted for `example.com`, same as `demo.sh`.
+  Set to `safe-changes.rawkode.xyz` so CI and the demo agree.
 
-To show it on camera, open a PR that changes the A record IP (the same edit
-as step 4) and let the comment land.
+The diff is against live state, so it only reads as a small change when
+live matches `main`. Before filming the PR beat:
+
+```sh
+cd 04-make-safe-changes-to-datum
+sed "s/example\.com/$DEMO_DOMAIN/g" manifests/*.yaml | datumctl apply -f -
+```
+
+then open (or re-run) a PR that changes the A record IP, the same edit as
+step 4. `demo.sh` expects nothing to exist yet, so run its cleanup (see
+below) before recording the terminal part.
 
 ## Before recording
 

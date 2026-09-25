@@ -86,7 +86,7 @@ pause; clear
 
 note "Closing: clean up, safely"
 run "datumctl delete -f manifests/ --dry-run=client"
-run "datumctl delete -f manifests/"
+run "datumctl delete -f manifests/ --ignore-not-found"
 run "datumctl get dnszones -l demo=safe-changes"
 pause; clear
 
