@@ -6,5 +6,5 @@ metadata:
   labels:
     demo: safe-changes
 spec:
-  domainName: example.com
+  domainname: example.com
   dnsZoneClassName: datum-external-global-dns
