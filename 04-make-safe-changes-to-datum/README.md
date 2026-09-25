@@ -76,7 +76,8 @@ live matches `main`. Before filming the PR beat:
 
 ```sh
 cd 04-make-safe-changes-to-datum
-sed "s/example\.com/$DEMO_DOMAIN/g" manifests/*.yaml | datumctl apply -f -
+for f in manifests/*.yaml; do sed "s/example\.com/$DEMO_DOMAIN/g" "$f"; echo ---; done \
+  | datumctl apply -f -
 ```
 
 then open (or re-run) a PR that changes the A record IP, the same edit as
