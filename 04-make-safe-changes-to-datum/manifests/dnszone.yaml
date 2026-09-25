@@ -1,0 +1,10 @@
+apiVersion: dns.networking.miloapis.com/v1alpha1
+kind: DNSZone
+metadata:
+  name: safe-changes-demo
+  namespace: default
+  labels:
+    demo: safe-changes
+spec:
+  domainName: example.com
+  dnsZoneClassName: datum-external-global-dns

@@ -1,0 +1,9 @@
+# Deliberately wrong: 'domainname' is not a field (it is 'domainName').
+apiVersion: dns.networking.miloapis.com/v1alpha1
+kind: DNSZone
+metadata:
+  name: safe-changes-demo
+  namespace: default
+spec:
+  domainname: example.com
+  dnsZoneClassName: datum-external-global-dns

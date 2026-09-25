@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "datum-mcp": {
+      "type": "stdio",
+      "command": "/usr/local/bin/datum-mcp",
+      "env": {}
+    }
+  }
+}

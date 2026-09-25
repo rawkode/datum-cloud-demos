@@ -1,0 +1,38 @@
+# Manifest form of the workload the video deploys with flags.
+#
+# Shape follows compute.datumapis.com/v1alpha as documented at
+# https://github.com/datum-cloud/compute/blob/main/docs/api/workloads.md
+# and the plugin's "workload-create" skill. The container template fields
+# below (runtime.sandbox.containers, ports) are taken from that skill's
+# description of what `datumctl compute deploy` renders. Before recording,
+# capture the real rendered object with:
+#
+#   datumctl get workload hello -o yaml
+#
+# and replace this file with the spec portion of that output.
+apiVersion: compute.datumapis.com/v1alpha
+kind: Workload
+metadata:
+  name: hello
+  namespace: default
+spec:
+  placements:
+    - name: default
+      locationSelector:
+        matchLabels:
+          topology.datum.net/city-code: DFW
+      scaleSettings:
+        minReplicas: 2
+  template:
+    spec:
+      runtime:
+        sandbox:
+          containers:
+            - name: hello
+              image: ghcr.io/datum-cloud/hello:latest
+              ports:
+                - name: http
+                  port: 8080
+      networkInterfaces:
+        - network:
+            name: default

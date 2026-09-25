@@ -1,0 +1,33 @@
+apiVersion: dns.networking.miloapis.com/v1alpha1
+kind: DNSRecordSet
+metadata:
+  name: safe-changes-demo-www
+  namespace: default
+  labels:
+    demo: safe-changes
+spec:
+  dnsZoneRef:
+    name: safe-changes-demo
+  recordType: A
+  records:
+    - name: www
+      ttl: 300
+      a:
+        content: "203.0.113.10"
+---
+apiVersion: dns.networking.miloapis.com/v1alpha1
+kind: DNSRecordSet
+metadata:
+  name: safe-changes-demo-spf
+  namespace: default
+  labels:
+    demo: safe-changes
+spec:
+  dnsZoneRef:
+    name: safe-changes-demo
+  recordType: TXT
+  records:
+    - name: "@"
+      ttl: 3600
+      txt:
+        content: "v=spf1 -all"
